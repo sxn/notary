@@ -30,9 +30,9 @@ Options:
 
 ``` shell
 $ notary remove --help
-Usage: notary delete [OPTIONS]
+Usage: notary remove [OPTIONS]
 
-Tries to find a file named LICENSE or LICENSE.md. If one (or both) exists, it asks the user if it should go ahead and delete them. Otherwise it exits and informs the user that none could be found.
+Tries to find a file named LICENSE or LICENSE.md. If one (or both) exists, it asks the user if it should go ahead and removes them. Otherwise it exits and informs the user that none could be found.
 
 Options:
   --help           Show this message and exit.
