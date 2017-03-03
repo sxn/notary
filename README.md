@@ -1,4 +1,4 @@
-# Notary: Officialize your project
+# Notary: License your project
 
 Notary is a Python CLI tool that allows you to manage your project's license.
 any license from [Choose a License](https://choosealicense.com/) and add it to your project.
