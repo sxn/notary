@@ -2,8 +2,9 @@ import datetime
 import sys
 
 import click
-from crayons import green, yellow
+from crayons import blue, green, white, yellow
 
+from notary.__version__ import __version__
 from notary import LICENSE_FILE
 import notary.utils as utils
 
@@ -11,13 +12,14 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
+@click.version_option(prog_name=yellow('notary'), version=blue(__version__))
 def cli():
     """Manages your project's license."""
 
 
 @cli.command(
     'add',
-    short_help="Adds a license, replacing any that might exist.",
+    short_help="Adds a license, " + white("replacing any that might exist."),
     context_settings=CONTEXT_SETTINGS
 )
 @click.option(
@@ -25,13 +27,13 @@ def cli():
     '--license',
     'license_name',
     type=click.STRING,
-    help="The name of the license you want to add. Doesn't have to be exact."
+    help="The name of the license you want to add. " + white("Doesn't have to be exact.")
 )
 @click.option(
     '-a',
     '--author',
     type=click.STRING,
-    help="The name that will be on the license. Is ignored if not required."
+    help="The name that will be on the license. " + white("Is ignored if not required.")
 )
 @click.option(
     '-y',
@@ -39,7 +41,7 @@ def cli():
     type=click.INT,
     default=datetime.datetime.now().year,
     show_default=True,
-    help="The year that will be on the license. Is ignored if not required."
+    help="The year that will be on the license. " + white("Is ignored if not required.")
 )
 def add(license_name, author, year):
     """Tries to find a license that matches the given LICENSE argument. If one exists and
