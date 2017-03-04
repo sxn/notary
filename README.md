@@ -20,6 +20,7 @@ Commands:
 ```
 
 ``` shell
+$ notary add --help
 Usage: notary add [OPTIONS]
 
   Tries to find a license that matches the given LICENSE argument. If one
@@ -32,17 +33,18 @@ Usage: notary add [OPTIONS]
   year that will be written to the license.
 
 Options:
-  -l, --license TEXT
-  -a, --author TEXT
-  -y, --year INTEGER  [default: 2017]
+  -l, --license TEXT  The name of the license you want to add. Doesn't have to
+                      be exact.
+  -a, --author TEXT   The name that will be on the license. Is ignored if not
+                      required.
+  -y, --year INTEGER  The year that will be on the license. Is ignored if not
+                      required.  [default: 2017]
   -h, --help          Show this message and exit.
 ```
 
 ``` shell
 $ notary add
 License name: m
-Author: Sorin Muntean
-Year [2017]:
 The following license file(s) already exist:
 /Users/sorin/Workspace/notary/LICENSE
 Remove /Users/sorin/Workspace/notary/LICENSE? [y/N]: y
@@ -51,6 +53,7 @@ Found the following matching licenses:
 1: MIT License
 2: Mozilla Public License Version 2.0
 Please choose which one you'd like to add [1]: 1
+Author: Sorin Muntean
 Adding MIT License as the project's license. Continue? [y/N]: y
 Added MIT License to /Users/sorin/Workspace/notary/LICENSE
 ```
@@ -58,7 +61,6 @@ Added MIT License to /Users/sorin/Workspace/notary/LICENSE
 ``` shell
 $ notary add --author 'Sorin Muntean'
 License name: mit
-Year [2017]: 2017
 Adding MIT License as the project's license. Continue? [y/N]: y
 Added MIT License to /Users/sorin/Workspace/notary/LICENSE
 ```
@@ -70,6 +72,7 @@ Added MIT License to /Users/sorin/Workspace/Python/Personal/github.com/notary/LI
 ```
 
 ``` shell
+$ notary remove --help
 Usage: notary remove [OPTIONS]
 
   Tries to find a file named LICENSE or LICENSE.md. If one (or both) exists,

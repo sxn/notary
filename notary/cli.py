@@ -17,12 +17,30 @@ def cli():
 
 @cli.command(
     'add',
-    short_help='Adds a license, replacing any that might exist.',
+    short_help="Adds a license, replacing any that might exist.",
     context_settings=CONTEXT_SETTINGS
 )
-@click.option('-l', '--license', 'license_name', type=click.STRING)
-@click.option('-a', '--author', type=click.STRING)
-@click.option('-y', '--year', type=click.INT, default=datetime.datetime.now().year)
+@click.option(
+    '-l',
+    '--license',
+    'license_name',
+    type=click.STRING,
+    help="The name of the license you want to add. Doesn't have to be exact."
+)
+@click.option(
+    '-a',
+    '--author',
+    type=click.STRING,
+    help="The name that will be on the license. Is ignored if not required."
+)
+@click.option(
+    '-y',
+    '--year',
+    type=click.INT,
+    default=datetime.datetime.now().year,
+    show_default=True,
+    help="The year that will be on the license. Is ignored if not required."
+)
 def add(license_name, author, year):
     """Tries to find a license that matches the given LICENSE argument. If one exists and
     takes a author and year, it adds them to the license. Otherwise it writes the license
@@ -46,7 +64,7 @@ def add(license_name, author, year):
         cls = guesses[0]
 
     if cls.author_placeholder and not author:
-        author = click.prompt("Author name", type=click.STRING)
+        author = click.prompt("Author", type=click.STRING)
 
     lic = cls(author=author, year=year)
 
@@ -59,7 +77,7 @@ def add(license_name, author, year):
 
 @cli.command(
     'remove',
-    short_help='Removes any license present in the current folder.',
+    short_help="Removes any license present in the current folder.",
     context_settings=CONTEXT_SETTINGS
 )
 def remove():
@@ -91,14 +109,14 @@ def ensure_no_license_files():
 
 
 def echo_paths(paths):
-    click.echo(green('\n'.join([str(path.absolute()) for path in paths])))
+    click.echo(green("\n".join([str(path.absolute()) for path in paths])))
 
 
 def choose_license(licenses, author, year):
     click.echo("Found the following matching licenses:")
     click.echo(
         green(
-            '\n'.join([
+            "\n".join([
                 '{index}: {name}'.format(index=index + 1, name=lic.name)
                 for index, lic in enumerate(licenses)
             ])
