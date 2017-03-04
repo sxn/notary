@@ -1,5 +1,2 @@
-# required for Python < 3.4
-pathlib
-
 click
 crayons
