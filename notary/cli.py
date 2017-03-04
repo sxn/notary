@@ -1,7 +1,5 @@
-import re
+import datetime
 import sys
-from functools import lru_cache
-from pathlib import Path
 
 import click
 from crayons import green, yellow
@@ -9,79 +7,79 @@ from crayons import green, yellow
 from notary import LICENSE_FILE
 import notary.utils as utils
 
-
-@lru_cache(maxsize=32)
-def find_license_files():
-    """Returns a list of :class:`Path <Path>` objects representing existing LICENSE files in the
-    current directory.
-    """
-    rule = re.compile('(?i)license(\.[a-zA-Z]*)?')
-    return [
-        path for path in Path('.').glob('*') if path.is_file() and rule.match(path.name)
-    ]
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 
-@click.group()
+@click.group(context_settings=CONTEXT_SETTINGS)
 def cli():
-    """Manage your project's license."""
+    """Manages your project's license."""
 
 
-def join_licensor_name(ctx, param, value):
-    return " ".join(value)
-
-
-@cli.command('add', short_help='add a license')
-@click.argument('license_name', metavar='LICENSE', type=click.STRING)
-@click.argument('licensor', nargs=-1, type=click.STRING, callback=join_licensor_name)
-@click.argument('year')
-def add(license_name=None, licensor=None, year=None):
+@cli.command(
+    'add',
+    short_help='Adds a license, replacing any that might exist.',
+    context_settings=CONTEXT_SETTINGS
+)
+@click.option('-l', '--license', 'license_name', type=click.STRING, prompt=True)
+@click.option('-a', '--author', type=click.STRING, prompt=True)
+@click.option(
+    '-y',
+    '--year',
+    type=click.INT,
+    prompt=True,
+    default=datetime.datetime.now().year,
+    show_default=True
+)
+def add(license_name, author, year):
     """Tries to find a license that matches the given LICENSE argument. If one exists and
-    takes a licensor and year, it adds them to the license. Otherwise it writes the license
-    without an licensor and year and informs the user.
+    takes a author and year, it adds them to the license. Otherwise it writes the license
+    without an author and year and informs the user.
 
     :param license_name: the 'human' name of the license that should be added. Notary will
     try to guess the actual name from this.
-    :param licensor: Tuple representing the name of the licensor.
+    :param author: Tuple representing the name of the author.
     :param year: Integer representing the year that will be written to the license.
     """
+
     ensure_no_license_files()
 
-    guesses = utils.guess_license(name=license_name, licensor=licensor, year=year)
+    guesses = utils.guess_license(name=license_name, author=author, year=year)
     if len(guesses) > 1:
         lic = choose_license(guesses)
     else:
         lic = guesses[0]
 
-    if click.confirm("Adding {0} license. Is this correct?".format(yellow(lic.name))):
+    if click.confirm("Adding {0} as the project's license. Continue?".format(yellow(lic.name))):
         with LICENSE_FILE.open('w') as f:
             f.write(lic.content)
-            click.echo(
-                "Added {0} to {1}".
-                format(yellow(lic.name), green(str(LICENSE_FILE.absolute())))
-            )
+
+        click.echo("Added {0} to {1}".format(yellow(lic.name), green(str(LICENSE_FILE.absolute()))))
 
 
-@cli.command('remove', short_help='remove any license')
+@cli.command(
+    'remove',
+    short_help='Removes any license present in the current folder.',
+    context_settings=CONTEXT_SETTINGS
+)
 def remove():
     """Tries to find a file named LICENSE or LICENSE.md. If one (or both) exists, it asks the
     user if it should go ahead and remove them. Otherwise it exits and informs the user
     that none could be found.
     """
-    existing_license_files = find_license_files()
-    if not existing_license_files:
-        click.echo("No license file found in the current directory.")
-        sys.exit(0)
 
-    click.echo("Found the following license file(s):")
     ensure_no_license_files()
-    sys.exit(0)
 
 
 def ensure_no_license_files():
     """Finds any potentially existing LICENSE files in the current directory and offers to
     delete whatever it finds.
     """
-    existing_license_files = find_license_files()
+
+    existing_license_files = utils.find_license_files()
+    if not existing_license_files:
+        click.echo("No license file found in the current directory.")
+        sys.exit(0)
+
     if existing_license_files:
         click.echo("The following license file(s) already exist:")
         echo_paths(existing_license_files)
@@ -119,6 +117,4 @@ def remove_license_file(license_file):
         license_file.unlink()
         click.echo("Removed {0}.".format(green(str(license_file.absolute()))))
     except Exception:
-        click.echo(
-            'Could not remove {0}.'.format(green(str(license_file.absolute()))), err=True
-        )
+        click.echo('Could not remove {0}.'.format(green(str(license_file.absolute()))), err=True)

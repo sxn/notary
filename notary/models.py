@@ -1,4 +1,3 @@
-import datetime
 from abc import ABC, abstractmethod
 
 from notary import LICENSE_DIR
@@ -7,7 +6,7 @@ from notary import LICENSE_DIR
 class License(ABC):
     """An abstract base class for all licenses.
 
-    :param licensor: Name of the entity granting the license (if it needs one).
+    :param author: Name of the entity granting the license (if it needs one).
     :param year: The year to be written to the license (if it needs one).
 
     Any class that extends this one needs to provide the following params:
@@ -15,18 +14,18 @@ class License(ABC):
     :param path: Instance of :class:`pathlib.Path <pathlib.Path>` representing the location
     of the license file.
 
-    Classes that allow setting a licensor or a year also additionally need to specify:
-    :attr licensor_placeholder: What (exactly) in the license file should be replaced
-    by :param:`licensor`
+    Classes that allow setting a author or a year also additionally need to specify:
+    :attr author_placeholder: What (exactly) in the license file should be replaced
+    by :param:`author`
     :attr year_placeholder: What (exactly) in the license file should be replaced
     by :param:`year`
     """
 
-    licensor_placeholder = None
+    author_placeholder = None
     year_placeholder = None
 
-    def __init__(self, licensor=None, year=None):
-        self._licensor = licensor
+    def __init__(self, author=None, year=None):
+        self._author = author
         self._year = year
 
     @property
@@ -40,20 +39,11 @@ class License(ABC):
         pass
 
     @property
-    def licensor(self):
-        return self._licensor
+    def author(self):
+        return self._author
 
     @property
     def year(self):
-        """Returns the year provided at instantiation, if available. If one was not
-        provided even though :attr:`year_placeholder` is set, it returns the current year.
-        Otherwise it returns :param:`_year`, that is, 'None'.
-        """
-        if self._year:
-            return self._year
-        if self.year_placeholder:
-            return datetime.datetime.now().year
-
         return self._year
 
     @property
@@ -61,8 +51,8 @@ class License(ABC):
         with self.path.open('r') as f:
             content = f.read()
 
-        if self.licensor_placeholder:
-            content = content.replace(self.licensor_placeholder, self.licensor, 1)
+        if self.author_placeholder:
+            content = content.replace(self.author_placeholder, self.author, 1)
         if self.year_placeholder:
             content = content.replace(self.year_placeholder, str(self.year), 1)
 
@@ -77,7 +67,7 @@ class AGPL3(License):
 class Apache(License):
     name = 'Apache License 2.0'
     path = LICENSE_DIR.joinpath('apache-2.0.md')
-    licensor_placeholder = '{name of copyright owner}'
+    author_placeholder = '{name of copyright owner}'
     year_placeholder = '{yyyy}'
 
 
@@ -94,7 +84,7 @@ class LGPL3(License):
 class MIT(License):
     name = 'MIT License'
     path = LICENSE_DIR.joinpath('mit.md')
-    licensor_placeholder = '[fullname]'
+    author_placeholder = '[fullname]'
     year_placeholder = '[year]'
 
 

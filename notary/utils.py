@@ -1,3 +1,7 @@
+import re
+from functools import lru_cache
+from pathlib import Path
+
 from notary.models import licenses
 
 
@@ -41,3 +45,14 @@ def guess_license(name, **kwargs):
         return probable
 
     return likely
+
+
+@lru_cache(maxsize=32)
+def find_license_files():
+    """Returns a list of :class:`Path <Path>` objects representing existing LICENSE files
+    in the current directory.
+    """
+    rule = re.compile('(?i)license(\.[a-zA-Z]*)?')
+    return [
+        path for path in Path('.').glob('*') if path.is_file() and rule.match(path.name)
+    ]
