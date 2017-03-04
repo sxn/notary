@@ -53,6 +53,7 @@ class License(ABC):
 
         if self.author_placeholder:
             content = content.replace(self.author_placeholder, self.author, 1)
+
         if self.year_placeholder:
             content = content.replace(self.year_placeholder, str(self.year), 1)
 

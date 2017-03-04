@@ -31,15 +31,15 @@ def levenshtein(s1, s2):
     return previous_row[-1]
 
 
-def guess_license(name, **kwargs):
+def guess_license(name):
     probable = []
     likely = []
     for lic in licenses:
         if name.lower() in lic.name.lower() or name.lower() in lic.__name__.lower():
-            probable.append(lic(**kwargs))
+            probable.append(lic)
             continue
 
-        likely.append(lic(**kwargs))
+        likely.append(lic)
 
     if probable:
         return probable
@@ -53,6 +53,4 @@ def find_license_files():
     in the current directory.
     """
     rule = re.compile('(?i)license(\.[a-zA-Z]*)?')
-    return [
-        path for path in Path('.').glob('*') if path.is_file() and rule.match(path.name)
-    ]
+    return [path for path in Path('.').glob('*') if path.is_file() and rule.match(path.name)]

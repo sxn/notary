@@ -20,16 +20,9 @@ def cli():
     short_help='Adds a license, replacing any that might exist.',
     context_settings=CONTEXT_SETTINGS
 )
-@click.option('-l', '--license', 'license_name', type=click.STRING, prompt=True)
-@click.option('-a', '--author', type=click.STRING, prompt=True)
-@click.option(
-    '-y',
-    '--year',
-    type=click.INT,
-    prompt=True,
-    default=datetime.datetime.now().year,
-    show_default=True
-)
+@click.option('-l', '--license', 'license_name', type=click.STRING)
+@click.option('-a', '--author', type=click.STRING)
+@click.option('-y', '--year', type=click.INT, default=datetime.datetime.now().year)
 def add(license_name, author, year):
     """Tries to find a license that matches the given LICENSE argument. If one exists and
     takes a author and year, it adds them to the license. Otherwise it writes the license
@@ -43,11 +36,19 @@ def add(license_name, author, year):
 
     ensure_no_license_files()
 
-    guesses = utils.guess_license(name=license_name, author=author, year=year)
+    if not license_name:
+        license_name = click.prompt("License name", type=click.STRING)
+
+    guesses = utils.guess_license(name=license_name)
     if len(guesses) > 1:
-        lic = choose_license(guesses)
+        cls = choose_license(guesses, author=author, year=year)
     else:
-        lic = guesses[0]
+        cls = guesses[0]
+
+    if cls.author_placeholder and not author:
+        author = click.prompt("Author name", type=click.STRING)
+
+    lic = cls(author=author, year=year)
 
     if click.confirm("Adding {0} as the project's license. Continue?".format(yellow(lic.name))):
         with LICENSE_FILE.open('w') as f:
@@ -67,6 +68,11 @@ def remove():
     that none could be found.
     """
 
+    existing_license_files = utils.find_license_files()
+    if not existing_license_files:
+        click.echo("No license file found in the current directory.")
+        return
+
     ensure_no_license_files()
 
 
@@ -76,9 +82,6 @@ def ensure_no_license_files():
     """
 
     existing_license_files = utils.find_license_files()
-    if not existing_license_files:
-        click.echo("No license file found in the current directory.")
-        sys.exit(0)
 
     if existing_license_files:
         click.echo("The following license file(s) already exist:")
@@ -91,7 +94,7 @@ def echo_paths(paths):
     click.echo(green('\n'.join([str(path.absolute()) for path in paths])))
 
 
-def choose_license(licenses):
+def choose_license(licenses, author, year):
     click.echo("Found the following matching licenses:")
     click.echo(
         green(
