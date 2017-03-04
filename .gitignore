@@ -1,3 +1,6 @@
+# Emacs cache files
+*.#*
+
 *.html
 
 # Byte-compiled / optimized / DLL files
