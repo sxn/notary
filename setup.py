@@ -1,13 +1,32 @@
-from setuptools import setup, find_packages
+from pathlib import Path
+from setuptools import setup
+
+here = Path(__file__).parent
+
+about = {}
+with here.joinpath('notary', '__version__.py').open() as f:
+    exec(f.read(), about)
+
+required = ['click', 'crayons']
 
 setup(
     name='notary',
-    version='0.1.2',
-    packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
-    include_package_data=True,
-    install_requires=['click', 'crayons'],
-    entry_points='''
-        [console_scripts]
-        notary=notary:cli
-    '''
+    version=about['__version__'],
+    description='License your project',
+    author='Sorin Muntean',
+    author_email='contact@sorinmuntean.ro',
+    url='https://github.com/sxn/notary',
+    packages=['notary'],
+    package_data={'notary': ['licenses/*.md']},
+    entry_points={
+        'console_scripts': ['notary=notary:cli'],
+    },
+    license='MIT',
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+    ],
 )
