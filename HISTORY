@@ -1,0 +1,2 @@
+0.1.1:
+ - Use options instead of arguments for both `add` and `remove` commands.
