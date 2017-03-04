@@ -1,2 +1,5 @@
+0.1.2:
+ - Only ask for an author if the license actually requires it.
+ - Never ask for a year.
 0.1.1:
  - Use options instead of arguments for both `add` and `remove` commands.
