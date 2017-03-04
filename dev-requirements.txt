@@ -1,3 +1,10 @@
 -r requirements.txt
+
+# for crawling https://choosealicense.com/
 requests
 beautifulsoup4
+
+pytest
+
+coverage
+pytest-cov

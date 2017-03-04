@@ -74,7 +74,9 @@ def add(license_name, author, year):
         with LICENSE_FILE.open('w') as f:
             f.write(lic.content)
 
-        click.echo("Added {0} to {1}".format(yellow(lic.name), green(str(LICENSE_FILE.absolute()))))
+        click.echo(
+            "Added {0} to {1}.".format(yellow(lic.name), green(str(LICENSE_FILE.absolute())))
+        )
 
 
 @cli.command(
@@ -118,10 +120,12 @@ def choose_license(licenses, author, year):
     click.echo("Found the following matching licenses:")
     click.echo(
         green(
-            "\n".join([
-                '{index}: {name}'.format(index=index + 1, name=lic.name)
-                for index, lic in enumerate(licenses)
-            ])
+            "\n".join(
+                [
+                    '{index}: {name}'.format(index=index + 1, name=lic.name)
+                    for index, lic in enumerate(licenses)
+                ]
+            )
         )
     )
     choice = click.prompt(
@@ -134,6 +138,7 @@ def choose_license(licenses, author, year):
 
 def remove_license_file(license_file):
     if not click.confirm("Remove {0}?".format(green(str(license_file.absolute())))):
+        click.echo("Not removing license.")
         sys.exit(0)
 
     try:

@@ -62,7 +62,7 @@ class License(ABC):
 
 class AGPL3(License):
     name = 'GNU Affero General Public License version 3'
-    path = LICENSE_DIR.joinpath('agpl-3.0')
+    path = LICENSE_DIR.joinpath('agpl-3.0.md')
 
 
 class Apache(License):
@@ -99,7 +99,7 @@ class Unlicense(License):
     path = LICENSE_DIR.joinpath('unlicense.md')
 
 
-licenses = [
+LICENSES = [
     AGPL3,
     Apache,
     GPL3,

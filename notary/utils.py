@@ -1,45 +1,26 @@
 import re
-from functools import lru_cache
 from pathlib import Path
 
-from notary.models import licenses
-
-
-def levenshtein(s1, s2):
-    """Calculates the Levenshtein distance between two strings. Shamelessly stolen from
-    https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Python
-    """
-    if len(s1) < len(s2):
-        return levenshtein(s2, s1)
-
-    # len(s1) >= len(s2)
-    if len(s2) == 0:
-        return len(s1)
-
-    previous_row = range(len(s2) + 1)
-    for i, c1 in enumerate(s1):
-        current_row = [i + 1]
-        for j, c2 in enumerate(s2):
-            insertions = previous_row[
-                j + 1
-            ] + 1  # j+1 instead of j since previous_row and current_row are one character longer
-            deletions = current_row[j] + 1  # than s2
-            substitutions = previous_row[j] + (c1 != c2)
-            current_row.append(min(insertions, deletions, substitutions))
-        previous_row = current_row
-
-    return previous_row[-1]
+from notary.models import LICENSES as SUPPORTED_LICENSES
 
 
 def guess_license(name):
+    """Returns a list of classes that extend the :class:`License` abstract base class.
+    :param name: If a string is sent, it checks if it's a substring of any of the supported
+    licenses. If it is, all matches will be returned. Otherwise, all supported licenses
+    are returned.
+    """
+
+    if not isinstance(name, str):
+        return SUPPORTED_LICENSES
+
     probable = []
     likely = []
-    for lic in licenses:
-        if name.lower() in lic.name.lower() or name.lower() in lic.__name__.lower():
+    for lic in SUPPORTED_LICENSES:
+        if name in lic.name.lower() or name in lic.__name__.lower():
             probable.append(lic)
-            continue
-
-        likely.append(lic)
+        else:
+            likely.append(lic)
 
     if probable:
         return probable
@@ -47,10 +28,16 @@ def guess_license(name):
     return likely
 
 
-@lru_cache(maxsize=32)
-def find_license_files():
+def find_license_files(folder=None):
     """Returns a list of :class:`Path <Path>` objects representing existing LICENSE files
-    in the current directory.
+    in the specified directory or the current folder, if none was specified.
+    :param folder: String or instance of :class:`Path`
     """
+    if isinstance(folder, str):
+        folder = Path(folder)
+
+    if folder is None:
+        folder = Path('.')
+
     rule = re.compile('(?i)license(\.[a-zA-Z]*)?')
-    return [path for path in Path('.').glob('*') if path.is_file() and rule.match(path.name)]
+    return [path for path in folder.glob('*') if path.is_file() and rule.match(path.name)]

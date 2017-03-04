@@ -23,7 +23,7 @@ setup(
     packages=['notary'],
     package_data={'notary': ['licenses/*.md']},
     entry_points={
-        'console_scripts': ['notary=notary:cli'],
+        'console_scripts': ['notary=notary.cli:cli'],
     },
     license='MIT',
     classifiers=[
