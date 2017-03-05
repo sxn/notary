@@ -151,6 +151,9 @@ Usage
 
 Documentation
 -------------
-Coming soon.
+
+You can find the documentation over at ReadTheDocs_.
+
 
 .. _choosealicense: https://choosealicense.com/licenses/
+.. _ReadTheDocs: http://notary.rtfd.io/
