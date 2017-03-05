@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': ['notary=notary.cli:cli'],
     },
+    install_requires=required,
     license='MIT',
     classifiers=[
         'Programming Language :: Python :: 3.5',
