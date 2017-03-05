@@ -28,8 +28,8 @@ Notary: License your project
 
 -----------------------------
 
-**Notary** is a Python CLI tool that allows you to manage your project's license.
-any license from `Choose a License <https://choosealicense.com/>`_ and add it to your project.
+**Notary** is a Python CLI tool to help you manage your project's license.
+Licenses are fetched from choosealicense_.
 
 .. image:: https://asciinema.org/a/105819.png
    :target: https://asciinema.org/a/105819?autoplay=1
@@ -152,3 +152,5 @@ Usage
 Documentation
 -------------
 Coming soon.
+
+.. _choosealicense: https://choosealicense.com/licenses/
