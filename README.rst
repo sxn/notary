@@ -1,8 +1,35 @@
 Notary: License your project
 ============================
 
+.. image:: https://img.shields.io/pypi/v/notary.svg
+   :target: https://pypi.python.org/pypi/notary
+
+.. image:: https://img.shields.io/pypi/l/notary.svg
+    :target: https://pypi.python.org/pypi/notary
+
+.. image:: https://img.shields.io/pypi/wheel/notary.svg
+    :target: https://pypi.python.org/pypi/notary
+
+.. image:: https://img.shields.io/pypi/pyversions/notary.svg
+    :target: https://pypi.python.org/pypi/notary
+
+.. image:: https://travis-ci.org/sxn/notary.svg?branch=master
+    :target: https://travis-ci.org/sxn/notary
+
+.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
+    :target: https://saythanks.io/to/sorin
+
+-----------------------------
+
 **Notary** is a Python CLI tool that allows you to manage your project's license.
 any license from `Choose a License <https://choosealicense.com/>`_ and add it to your project.
+
+Installation
+------------
+
+::
+
+    pip install notary
 
 Usage
 -----
@@ -111,13 +138,6 @@ Usage
 
     $ notary remove
     No license file found in the current directory.
-
-Installation
-------------
-
-::
-
-    pip install notary
 
 Documentation
 -------------

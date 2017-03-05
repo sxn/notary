@@ -1,3 +1,7 @@
+0.1.9:
+  - Add shields to README.rst
+0.1.8:
+  - Convert README.md to README.rst so that PyPI plays nicely with it
 0.1.4:
   - Fixed the path for AGPL3
 0.1.3:
