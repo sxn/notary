@@ -1,3 +1,7 @@
+0.1.11:
+  - Add DependencyCI and codecov
+0.1.10:
+  - Fix bug that made notary install without its dependencies..
 0.1.9:
   - Add shields to README.rst
 0.1.8:

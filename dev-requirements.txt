@@ -8,3 +8,5 @@ pytest
 
 coverage
 pytest-cov
+
+codecov

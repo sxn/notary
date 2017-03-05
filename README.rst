@@ -16,8 +16,15 @@ Notary: License your project
 .. image:: https://travis-ci.org/sxn/notary.svg?branch=master
     :target: https://travis-ci.org/sxn/notary
 
+.. image:: https://codecov.io/gh/sxn/notary/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/sxn/notary
+
+.. image:: https://dependencyci.com/github/sxn/notary/badge
+    :target: https://dependencyci.com/github/sxn/notary
+
 .. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
     :target: https://saythanks.io/to/sorin
+
 
 -----------------------------
 
