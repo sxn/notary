@@ -3,7 +3,7 @@ from setuptools import setup
 
 here = Path(__file__).parent
 
-with here.joinpath('README.md').open() as f:
+with here.joinpath('README.rst').open() as f:
     long_description = '\n' + f.read()
 
 about = {}
