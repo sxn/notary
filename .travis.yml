@@ -7,4 +7,5 @@ install:
 script:
   - make tests
 after_success:
+  - pip install https://github.com/codecov/codecov-python/tarball/v2.0.6
   - make coverage
