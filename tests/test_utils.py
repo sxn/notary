@@ -10,7 +10,7 @@ from notary.models import (
 @pytest.mark.parametrize(
     "name, expected",
     [('gibberish', SUPPORTED_LICENSES), ('mit', [MIT]), ('m', [MIT, MPL]),
-     ('gpl', [AGPL3, GPL3, LGPL3]), ('apache', [Apache]), ('a', [AGPL3, Apache, GPL3, LGPL3, MPL]),
+     ('gpl', [AGPL3, GPL3, LGPL3]), ('ap', [Apache]), ('apache', [Apache]), ('a', [AGPL3, Apache, GPL3, LGPL3, MPL]),
      ('', SUPPORTED_LICENSES), (None, SUPPORTED_LICENSES)]
 )
 def test_guess_license(name, expected):

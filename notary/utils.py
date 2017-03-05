@@ -13,14 +13,16 @@ def guess_license(name):
 
     if not isinstance(name, str):
         return SUPPORTED_LICENSES
+    else:
+        name = name.lower()
 
     probable = []
     likely = []
-    for lic in SUPPORTED_LICENSES:
-        if name in lic.name.lower() or name in lic.__name__.lower():
-            probable.append(lic)
+    for cls in SUPPORTED_LICENSES:
+        if name in cls.name.lower() or name in cls.__name__.lower():
+            probable.append(cls)
         else:
-            likely.append(lic)
+            likely.append(cls)
 
     if probable:
         return probable

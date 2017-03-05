@@ -66,6 +66,7 @@ def add(license_name, author, year):
         cls = guesses[0]
 
     if cls.author_placeholder and not author:
+        click.echo("{0} requires an author.".format(yellow(cls.name)))
         author = click.prompt("Author", type=click.STRING)
 
     lic = cls(author=author, year=year)
