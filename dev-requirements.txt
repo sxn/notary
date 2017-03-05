@@ -10,3 +10,5 @@ coverage
 pytest-cov
 
 codecov
+
+sphinx
