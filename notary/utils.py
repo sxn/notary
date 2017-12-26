@@ -39,7 +39,7 @@ def find_license_files(folder=None):
         folder = Path(folder)
 
     if folder is None:
-        folder = Path('.')
+        folder = Path(".")
 
-    rule = re.compile('(?i)license(\.[a-zA-Z]*)?')
-    return [path for path in folder.glob('*') if path.is_file() and rule.match(path.name)]
+    rule = re.compile("(?i)license(\.[a-zA-Z]*)?")
+    return [path for path in folder.glob("*") if path.is_file() and rule.match(path.name)]

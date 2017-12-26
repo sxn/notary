@@ -9,9 +9,9 @@ from notary import cli
 def test_add_license_no_preexisting():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        license_file = Path('LICENSE')
+        license_file = Path("LICENSE")
         assert not license_file.exists()
-        result = runner.invoke(cli.add, input="\n".join(['mit', 'John Smith', 'y']))
+        result = runner.invoke(cli.add, input="\n".join(["mit", "John Smith", "y"]))
         assert result.exit_code == 0
         assert "License name: mit\n" in result.output
         assert "Author: John Smith\n" in result.output
@@ -23,9 +23,9 @@ def test_add_license_no_preexisting():
 def test_add_license_no_preexisting_multiple_found():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        license_file = Path('LICENSE')
+        license_file = Path("LICENSE")
         assert not license_file.exists()
-        result = runner.invoke(cli.add, input="\n".join(['m', '1', 'John Smith', 'y']))
+        result = runner.invoke(cli.add, input="\n".join(["m", "1", "John Smith", "y"]))
         assert result.exit_code == 0
         assert "License name: m\n" in result.output
         assert "Found the following matching licenses:\n" in result.output
@@ -42,9 +42,9 @@ def test_add_license_no_preexisting_multiple_found():
 def test_add_license_no_preexisting_no_author_needed():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        license_file = Path('LICENSE')
+        license_file = Path("LICENSE")
         assert not license_file.exists()
-        result = runner.invoke(cli.add, input="\n".join(['agpl', 'y']))
+        result = runner.invoke(cli.add, input="\n".join(["agpl", "y"]))
         assert result.exit_code == 0
         assert "License name: agpl\n" in result.output
         assert "Adding GNU Affero General Public License version 3 as the project's license. Continue? [y/N]: y\n" in result.output
@@ -56,9 +56,9 @@ def test_add_license_no_preexisting_no_author_needed():
 def test_add_license_no_preexisting_no_license_matched():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        license_file = Path('LICENSE')
+        license_file = Path("LICENSE")
         assert not license_file.exists()
-        result = runner.invoke(cli.add, input="\n".join(['gibberish', '3', 'y']))
+        result = runner.invoke(cli.add, input="\n".join(["gibberish", "3", "y"]))
         assert result.exit_code == 0
         assert "License name: gibberish\n" in result.output
         assert "Found the following matching licenses:\n" in result.output
@@ -79,12 +79,12 @@ def test_add_license_no_preexisting_no_license_matched():
 def test_add_license_preexisting_license():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        old_license_file = Path('LICENSE.rst')
-        with old_license_file.open('w') as f:
-            f.write('')
-        new_license_file = Path('LICENSE')
+        old_license_file = Path("LICENSE.rst")
+        with old_license_file.open("w") as f:
+            f.write("")
+        new_license_file = Path("LICENSE")
         assert not new_license_file.exists()
-        result = runner.invoke(cli.add, input="\n".join(['y', 'mit', 'John Smith', 'y']))
+        result = runner.invoke(cli.add, input="\n".join(["y", "mit", "John Smith", "y"]))
         assert result.exit_code == 0
         assert "The following license file(s) already exist:\n" in result.output
         assert "/LICENSE.rst\n" in result.output
@@ -110,11 +110,11 @@ def test_remove_no_license():
 def test_remove_existing_license_answer_yes():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        license_file = Path('LICENSE.rst')
-        with license_file.open('w') as f:
-            f.write('')
+        license_file = Path("LICENSE.rst")
+        with license_file.open("w") as f:
+            f.write("")
         assert license_file.exists()
-        result = runner.invoke(cli.remove, input='y')
+        result = runner.invoke(cli.remove, input="y")
         assert result.exit_code == 0
         assert "The following license file(s) already exist:" in result.output
         assert "/LICENSE.rst? [y/N]: y\n" in result.output
@@ -126,11 +126,11 @@ def test_remove_existing_license_answer_yes():
 def test_remove_existing_license_answer_no():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        license_file = Path('LICENSE.rst')
-        with license_file.open('w') as f:
-            f.write('')
+        license_file = Path("LICENSE.rst")
+        with license_file.open("w") as f:
+            f.write("")
         assert license_file.exists()
-        result = runner.invoke(cli.remove, input='n')
+        result = runner.invoke(cli.remove, input="n")
         assert result.exit_code == 0
         assert "The following license file(s) already exist:" in result.output
         assert "/LICENSE.rst? [y/N]: n\n" in result.output

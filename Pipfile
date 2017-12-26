@@ -1,0 +1,23 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+click = "*"
+crayons = "*"
+
+
+[dev-packages]
+
+requests = "*"
+"beautifulsoup4" = "*"
+pytest = "*"
+coverage = "*"
+pytest-cov = "*"
+codecov = "*"
+sphinx = "*"
+"e1839a8" = {path = ".", editable = true}

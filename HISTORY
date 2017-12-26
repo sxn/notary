@@ -1,3 +1,7 @@
+0.1.17:
+  - Update licenses
+  - Use f-strings everywhere
+  - Introduce `pipenv`
 0.1.16:
   - Link to ReadTheDocs from README
 0.1.15:
